@@ -1,0 +1,18 @@
+[package]
+name = "user"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "user-server"
+path = "src/main.rs"
+
+[[bin]]
+name = "user-client"
+path = "src/client.rs"
+
+[dependencies]
+tonic. workspace = true
+prost.workspace = true
+tokio.workspace = true
+uuid = { version = "1.0", features = ["v4"] }

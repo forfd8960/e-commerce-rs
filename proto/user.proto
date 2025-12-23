@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package user;
+
+// UserService provides user authentication and profile management functionality
+service UserService {
+  // Register creates a new user account with the provided credentials
+  rpc Register(RegisterRequest) returns (RegisterResponse);
+  // Login authenticates a user and returns a token for session management
+  rpc Login(LoginRequest) returns (LoginResponse);
+    // Verify checks the validity of a given authentication token
+  rpc Verify(VerifyRequest) returns (VerifyResponse);
+    // GetUserProfile retrieves the profile information of a user by user ID
+  rpc GetUserProfile(GetUserProfileRequest) returns (GetUserProfileResponse);
+    // UpdateUserProfile updates the profile information of a user
+  rpc UpdateUserProfile(UpdateUserProfileRequest) returns (UpdateUserProfileResponse);
+}
+
+message User {
+  string user_id = 1;
+  string username = 2;
+  string email = 3;
+  string full_name = 4;
+  string phone_number = 5;
+  int64 created_at = 6;
+  int64 updated_at = 7;
+}
+
+message RegisterRequest {
+  string username = 1;
+  string email = 2;
+  string password = 3;
+  string full_name = 4;
+  string phone_number = 5;
+}
+
+message RegisterResponse {
+  bool success = 1;
+  string message = 2;
+  string user_id = 3;
+}
+
+// LoginRequest is used to authenticate a user with their credentials
+message LoginRequest {
+  string username = 1;
+  string password = 2;
+}
+
+message LoginResponse {
+  bool success = 1;
+  string message = 2;
+  string token = 3;
+  User user = 4;
+}
+
+message VerifyRequest {
+  string token = 1;
+}
+
+message VerifyResponse {
+  bool valid = 1;
+  string user_id = 2;
+  string message = 3;
+}
+
+message GetUserProfileRequest {
+  string user_id = 1;
+}
+
+message GetUserProfileResponse {
+  bool success = 1;
+  string message = 2;
+  User user = 3;
+}
+
+message UpdateUserProfileRequest {
+  string user_id = 1;
+  string email = 2;
+  string full_name = 3;
+  string phone_number = 4;
+}
+
+message UpdateUserProfileResponse {
+  bool success = 1;
+  string message = 2;
+  User user = 3;
+}

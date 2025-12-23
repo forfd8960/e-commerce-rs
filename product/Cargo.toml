@@ -1,0 +1,17 @@
+[package]
+name = "product"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "product-server"
+path = "src/main.rs"
+
+[[bin]]
+name = "product-client"
+path = "src/client.rs"
+
+[dependencies]
+tonic.workspace = true
+prost.workspace = true
+tokio.workspace = true

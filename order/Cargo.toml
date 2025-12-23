@@ -1,0 +1,17 @@
+[package]
+name = "order"
+version = "0.1.0"
+edition = "2024"
+
+[[bin]]
+name = "order-server"
+path = "src/main.rs"
+
+[[bin]]
+name = "order-client"
+path = "src/client.rs"
+
+[dependencies]
+tonic.workspace = true
+prost.workspace = true
+tokio.workspace = true
