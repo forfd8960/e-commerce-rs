@@ -60,7 +60,7 @@ pub struct LoginResponse {
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VerifyRequest {
     #[prost(string, tag = "1")]
-    pub token: ::prost::alloc::string::String,
+    pub user_id: ::prost::alloc::string::String,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct VerifyResponse {

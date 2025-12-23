@@ -91,6 +91,16 @@ pub struct GetProductResponse {
     pub product: ::core::option::Option<Product>,
 }
 #[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetProductsByIDsRequest {
+    #[prost(string, repeated, tag = "1")]
+    pub product_ids: ::prost::alloc::vec::Vec<::prost::alloc::string::String>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
+pub struct GetProductsByIDsResponse {
+    #[prost(message, repeated, tag = "3")]
+    pub products: ::prost::alloc::vec::Vec<Product>,
+}
+#[derive(Clone, PartialEq, ::prost::Message)]
 pub struct ListProductsRequest {
     #[prost(int32, tag = "1")]
     pub page: i32,
@@ -330,6 +340,30 @@ pub mod product_service_client {
                 .insert(GrpcMethod::new("product.ProductService", "GetProduct"));
             self.inner.unary(req, path, codec).await
         }
+        pub async fn get_products_by_ids(
+            &mut self,
+            request: impl tonic::IntoRequest<super::GetProductsByIDsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::GetProductsByIDsResponse>,
+            tonic::Status,
+        > {
+            self.inner
+                .ready()
+                .await
+                .map_err(|e| {
+                    tonic::Status::unknown(
+                        format!("Service was not ready: {}", e.into()),
+                    )
+                })?;
+            let codec = tonic::codec::ProstCodec::default();
+            let path = http::uri::PathAndQuery::from_static(
+                "/product.ProductService/GetProductsByIds",
+            );
+            let mut req = request.into_request();
+            req.extensions_mut()
+                .insert(GrpcMethod::new("product.ProductService", "GetProductsByIds"));
+            self.inner.unary(req, path, codec).await
+        }
         pub async fn list_products(
             &mut self,
             request: impl tonic::IntoRequest<super::ListProductsRequest>,
@@ -443,6 +477,13 @@ pub mod product_service_server {
             request: tonic::Request<super::GetProductRequest>,
         ) -> std::result::Result<
             tonic::Response<super::GetProductResponse>,
+            tonic::Status,
+        >;
+        async fn get_products_by_ids(
+            &self,
+            request: tonic::Request<super::GetProductsByIDsRequest>,
+        ) -> std::result::Result<
+            tonic::Response<super::GetProductsByIDsResponse>,
             tonic::Status,
         >;
         async fn list_products(
@@ -708,6 +749,52 @@ pub mod product_service_server {
                     let inner = self.inner.clone();
                     let fut = async move {
                         let method = GetProductSvc(inner);
+                        let codec = tonic::codec::ProstCodec::default();
+                        let mut grpc = tonic::server::Grpc::new(codec)
+                            .apply_compression_config(
+                                accept_compression_encodings,
+                                send_compression_encodings,
+                            )
+                            .apply_max_message_size_config(
+                                max_decoding_message_size,
+                                max_encoding_message_size,
+                            );
+                        let res = grpc.unary(method, req).await;
+                        Ok(res)
+                    };
+                    Box::pin(fut)
+                }
+                "/product.ProductService/GetProductsByIds" => {
+                    #[allow(non_camel_case_types)]
+                    struct GetProductsByIdsSvc<T: ProductService>(pub Arc<T>);
+                    impl<
+                        T: ProductService,
+                    > tonic::server::UnaryService<super::GetProductsByIDsRequest>
+                    for GetProductsByIdsSvc<T> {
+                        type Response = super::GetProductsByIDsResponse;
+                        type Future = BoxFuture<
+                            tonic::Response<Self::Response>,
+                            tonic::Status,
+                        >;
+                        fn call(
+                            &mut self,
+                            request: tonic::Request<super::GetProductsByIDsRequest>,
+                        ) -> Self::Future {
+                            let inner = Arc::clone(&self.0);
+                            let fut = async move {
+                                <T as ProductService>::get_products_by_ids(&inner, request)
+                                    .await
+                            };
+                            Box::pin(fut)
+                        }
+                    }
+                    let accept_compression_encodings = self.accept_compression_encodings;
+                    let send_compression_encodings = self.send_compression_encodings;
+                    let max_decoding_message_size = self.max_decoding_message_size;
+                    let max_encoding_message_size = self.max_encoding_message_size;
+                    let inner = self.inner.clone();
+                    let fut = async move {
+                        let method = GetProductsByIdsSvc(inner);
                         let codec = tonic::codec::ProstCodec::default();
                         let mut grpc = tonic::server::Grpc::new(codec)
                             .apply_compression_config(

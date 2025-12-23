@@ -186,6 +186,7 @@ pub mod order_service_client {
     )]
     use tonic::codegen::*;
     use tonic::codegen::http::Uri;
+    /// OrderService manages customer orders and related operations
     #[derive(Debug, Clone)]
     pub struct OrderServiceClient<T> {
         inner: tonic::client::Grpc<T>,
@@ -266,6 +267,7 @@ pub mod order_service_client {
             self.inner = self.inner.max_encoding_message_size(limit);
             self
         }
+        /// Creates a new order
         pub async fn create_order(
             &mut self,
             request: impl tonic::IntoRequest<super::CreateOrderRequest>,
@@ -425,6 +427,7 @@ pub mod order_service_server {
     /// Generated trait containing gRPC methods that should be implemented for use with OrderServiceServer.
     #[async_trait]
     pub trait OrderService: std::marker::Send + std::marker::Sync + 'static {
+        /// Creates a new order
         async fn create_order(
             &self,
             request: tonic::Request<super::CreateOrderRequest>,
@@ -468,6 +471,7 @@ pub mod order_service_server {
             tonic::Status,
         >;
     }
+    /// OrderService manages customer orders and related operations
     #[derive(Debug)]
     pub struct OrderServiceServer<T> {
         inner: Arc<T>,

@@ -17,3 +17,30 @@ The order service provides APIs to create, update, cancel, and retrieve orders. 
 - use postgres as database
 - all service use the same database instance, but each service has its own schema to isolate data.
 - use sqlx as the ORM layer.
+
+## User Service Implement
+
+- proto: proto/user.proto
+- service name: UserService
+- use tonic to implement gRPC server and client.
+- implement user registration, login, token verification, and profile management.
+- hash user passwords before storing them in the database.
+- generate JWT tokens for user authentication.
+- implement input validation and error handling.
+
+## Product Service Implement
+- proto: proto/product.proto
+- service name: ProductService
+- import product mod with: `use proto::product::{...}`
+- use tonic to implement gRPC server and client.
+- implement product addition, update, deletion, and retrieval.
+- manage product inventory levels.
+- implement input validation and error handling.
+
+
+## Order Service Implement
+- proto: proto/order.proto
+- service name: OrderService
+- import order service with: `use proto::order::{...}`
+- use tonic to implement gRPC server and client.
+- implement order creation, update, cancellation, and retrieval.

@@ -7,6 +7,7 @@ service ProductService {
   rpc UpdateProduct(UpdateProductRequest) returns (UpdateProductResponse);
   rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse);
   rpc GetProduct(GetProductRequest) returns (GetProductResponse);
+  rpc GetProductsByIds(GetProductsByIDsRequest) returns (GetProductsByIDsResponse);
   rpc ListProducts(ListProductsRequest) returns (ListProductsResponse);
   rpc CheckAvailability(CheckAvailabilityRequest) returns (CheckAvailabilityResponse);
   rpc UpdateInventory(UpdateInventoryRequest) returns (UpdateInventoryResponse);
@@ -69,6 +70,14 @@ message GetProductResponse {
   bool success = 1;
   string message = 2;
   Product product = 3;
+}
+
+message GetProductsByIDsRequest {
+  repeated string product_ids = 1;
+}
+
+message GetProductsByIDsResponse {
+  repeated Product products = 3;
 }
 
 message ListProductsRequest {

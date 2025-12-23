@@ -12,7 +12,18 @@ name = "user-client"
 path = "src/client.rs"
 
 [dependencies]
-tonic. workspace = true
-prost.workspace = true
-tokio.workspace = true
-uuid = { version = "1.0", features = ["v4"] }
+# common = { path = "../common" }
+proto = { path = "../proto" }
+tonic = { workspace = true }
+prost = { workspace = true }
+tokio = { workspace = true }
+tokio-stream = { workspace = true }
+sqlx = { workspace = true }
+uuid = { version = "1.11", features = ["v4", "serde"] }
+bcrypt = "0.15"
+jsonwebtoken = "9.3"
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+chrono = { version = "0.4", features = ["serde"] }
+anyhow = "1.0"
+dotenvy = "0.15"

@@ -54,7 +54,7 @@ message LoginResponse {
 }
 
 message VerifyRequest {
-  string token = 1;
+  string user_id = 1;
 }
 
 message VerifyResponse {

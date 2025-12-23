@@ -2,7 +2,9 @@ syntax = "proto3";
 
 package order;
 
+// OrderService manages customer orders and related operations
 service OrderService {
+    // Creates a new order
   rpc CreateOrder(CreateOrderRequest) returns (CreateOrderResponse);
   rpc UpdateOrder(UpdateOrderRequest) returns (UpdateOrderResponse);
   rpc CancelOrder(CancelOrderRequest) returns (CancelOrderResponse);
