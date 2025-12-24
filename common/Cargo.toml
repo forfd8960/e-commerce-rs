@@ -7,6 +7,12 @@ edition = "2024"
 tonic.workspace = true
 prost.workspace = true
 tokio.workspace = true
+tower.workspace = true
+tracing.workspace = true
+http.workspace = true
+tracing-subscriber.workspace = true
+pin-project.workspace = true
+dashmap.workspace = true
 
 [build-dependencies]
 tonic-build.workspace = true

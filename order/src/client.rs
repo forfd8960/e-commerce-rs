@@ -1,7 +1,7 @@
 use proto::order::{
-    order_service_client::OrderServiceClient, CancelOrderRequest, CreateOrderRequest,
-    GetOrderRequest, GetOrdersByUserRequest, ListOrdersRequest, OrderItem, OrderStatus,
-    UpdateOrderRequest,
+    CancelOrderRequest, CreateOrderRequest, GetOrderRequest, GetOrdersByUserRequest,
+    ListOrdersRequest, OrderItem, OrderStatus, UpdateOrderRequest,
+    order_service_client::OrderServiceClient,
 };
 
 #[tokio::main]
@@ -130,10 +130,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  Total Count: {}", user_orders_result.total_count);
     println!("  User's orders:");
     for order in &user_orders_result.orders {
-        println!(
-            "    - Order {}: ${:.2}",
-            order.order_id, order.total_amount
-        );
+        println!("    - Order {}: ${:.2}", order.order_id, order.total_amount);
     }
     println!();
 
@@ -151,7 +148,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  Success: {}", update_result.success);
     println!("  Message: {}", update_result.message);
     if let Some(order) = &update_result.order {
-        println!("  Updated Status: {:?}", OrderStatus::try_from(order.status));
+        println!(
+            "  Updated Status: {:?}",
+            OrderStatus::try_from(order.status)
+        );
         println!("  Updated Address: {}", order.shipping_address);
     }
     println!();
@@ -184,7 +184,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let list_by_status_response = client.list_orders(list_by_status_request).await?;
     let list_by_status_result = list_by_status_response.into_inner();
     println!("List Orders by Status Response:");
-    println!("  Total in Processing: {}", list_by_status_result.total_count);
+    println!(
+        "  Total in Processing: {}",
+        list_by_status_result.total_count
+    );
     println!("  Processing orders:");
     for order in &list_by_status_result.orders {
         println!("    - Order {}: ${:.2}", order.order_id, order.total_amount);

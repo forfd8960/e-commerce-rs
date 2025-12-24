@@ -44,3 +44,11 @@ The order service provides APIs to create, update, cancel, and retrieve orders. 
 - import order service with: `use proto::order::{...}`
 - use tonic to implement gRPC server and client.
 - implement order creation, update, cancellation, and retrieval.
+
+## Log and Observability
+
+- auto generate `request-id` for each incoming request.
+- use tracing for logging.
+- log all incoming requests and outgoing responses in each service.
+- log errors with appropriate severity levels.
+- use tracing_subscriber to manage log output format and destination.

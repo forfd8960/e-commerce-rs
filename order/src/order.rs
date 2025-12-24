@@ -1,15 +1,13 @@
 use anyhow::Result;
 use proto::order::{
-    order_service_server::OrderService, CancelOrderRequest, CancelOrderResponse,
-    CreateOrderRequest, CreateOrderResponse, GetOrderRequest, GetOrderResponse,
-    GetOrdersByUserRequest, GetOrdersByUserResponse, ListOrdersRequest, ListOrdersResponse,
-    Order, OrderItem, OrderStatus, UpdateOrderRequest, UpdateOrderResponse,
+    CancelOrderRequest, CancelOrderResponse, CreateOrderRequest, CreateOrderResponse,
+    GetOrderRequest, GetOrderResponse, GetOrdersByUserRequest, GetOrdersByUserResponse,
+    ListOrdersRequest, ListOrdersResponse, Order, OrderItem, OrderStatus, UpdateOrderRequest,
+    UpdateOrderResponse, order_service_server::OrderService,
 };
 use proto::product;
-use proto::product::{
-    product_service_client::ProductServiceClient, CheckAvailabilityRequest,
-};
-use proto::user::{user_service_client::UserServiceClient, VerifyRequest};
+use proto::product::{CheckAvailabilityRequest, product_service_client::ProductServiceClient};
+use proto::user::{VerifyRequest, user_service_client::UserServiceClient};
 use sqlx::PgPool;
 use tonic::{Request, Response, Status};
 use uuid::Uuid;
@@ -126,7 +124,9 @@ impl OrderServiceImpl {
 
             items.push(OrderItem {
                 product_id: db_item.product_id.clone(),
-                product_name: product_map.get(&db_item.product_id).map_or(String::new(), |p| p.name.clone()),
+                product_name: product_map
+                    .get(&db_item.product_id)
+                    .map_or(String::new(), |p| p.name.clone()),
                 quantity: db_item.quantity,
                 unit_price: price,
                 subtotal,
@@ -159,7 +159,9 @@ impl OrderServiceImpl {
         // Call user service to verify token and get user_id
         let mut client = UserServiceClient::connect(self.user_service_url.clone())
             .await
-            .map_err(|e| Status::unavailable(format!("Failed to connect to user service: {}", e)))?;
+            .map_err(|e| {
+                Status::unavailable(format!("Failed to connect to user service: {}", e))
+            })?;
 
         let verify_request = VerifyRequest {
             user_id: user_id.to_string(),
@@ -172,11 +174,7 @@ impl OrderServiceImpl {
 
         let result = response.into_inner();
 
-        if result.valid {
-            Ok(true)
-        } else {
-            Ok(false)
-        }
+        if result.valid { Ok(true) } else { Ok(false) }
     }
 
     async fn check_product_availability(
@@ -275,7 +273,10 @@ impl OrderService for OrderServiceImpl {
             {
                 return Ok(Response::new(CreateOrderResponse {
                     success: false,
-                    message: format!("Product {} not available in requested quantity", item.product_id),
+                    message: format!(
+                        "Product {} not available in requested quantity",
+                        item.product_id
+                    ),
                     order_id: String::new(),
                     order: None,
                 }));
@@ -397,7 +398,8 @@ impl OrderService for OrderServiceImpl {
             }));
         }
 
-        let status_str = self.status_to_string(OrderStatus::try_from(req.status).unwrap_or(OrderStatus::Pending));
+        let status_str = self
+            .status_to_string(OrderStatus::try_from(req.status).unwrap_or(OrderStatus::Pending));
 
         let result = sqlx::query(
             "UPDATE orders SET status = $1, shipping_address = $2, updated_at = CURRENT_TIMESTAMP 

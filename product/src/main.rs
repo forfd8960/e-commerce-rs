@@ -1,8 +1,8 @@
 mod product;
 
 use anyhow::Result;
-use proto::product::product_service_server::ProductServiceServer;
 use product::ProductServiceImpl;
+use proto::product::product_service_server::ProductServiceServer;
 use sqlx::postgres::PgPoolOptions;
 use std::env;
 use tonic::transport::Server;

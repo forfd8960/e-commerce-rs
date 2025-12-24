@@ -1,6 +1,10 @@
 use anyhow::Result;
 use proto::product::{
-    AddProductRequest, AddProductResponse, CheckAvailabilityRequest, CheckAvailabilityResponse, DeleteProductRequest, DeleteProductResponse, GetProductRequest, GetProductResponse, GetProductsByIDsRequest, GetProductsByIDsResponse, ListProductsRequest, ListProductsResponse, Product, UpdateInventoryRequest, UpdateInventoryResponse, UpdateProductRequest, UpdateProductResponse, product_service_server::ProductService
+    AddProductRequest, AddProductResponse, CheckAvailabilityRequest, CheckAvailabilityResponse,
+    DeleteProductRequest, DeleteProductResponse, GetProductRequest, GetProductResponse,
+    GetProductsByIDsRequest, GetProductsByIDsResponse, ListProductsRequest, ListProductsResponse,
+    Product, UpdateInventoryRequest, UpdateInventoryResponse, UpdateProductRequest,
+    UpdateProductResponse, product_service_server::ProductService,
 };
 use sqlx::{PgPool, types::Decimal};
 use tonic::{Request, Response, Status};
@@ -269,9 +273,7 @@ impl ProductService for ProductServiceImpl {
         let req = request.into_inner();
 
         if req.product_ids.is_empty() {
-            return Ok(Response::new(GetProductsByIDsResponse {
-                products: vec![],
-            }));
+            return Ok(Response::new(GetProductsByIDsResponse { products: vec![] }));
         }
 
         let products = sqlx::query_as::<_, DbProduct>(
@@ -292,7 +294,6 @@ impl ProductService for ProductServiceImpl {
             products: proto_products,
         }))
     }
-
 
     async fn list_products(
         &self,

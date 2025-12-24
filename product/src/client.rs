@@ -1,7 +1,7 @@
 use proto::product::{
-    product_service_client::ProductServiceClient, AddProductRequest, CheckAvailabilityRequest,
-    DeleteProductRequest, GetProductRequest, ListProductsRequest, UpdateInventoryRequest,
-    UpdateProductRequest,
+    AddProductRequest, CheckAvailabilityRequest, DeleteProductRequest, GetProductRequest,
+    ListProductsRequest, UpdateInventoryRequest, UpdateProductRequest,
+    product_service_client::ProductServiceClient,
 };
 
 #[tokio::main]
@@ -85,7 +85,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("  Total Count: {}", list_result.total_count);
     println!("  Products in this page:");
     for product in &list_result.products {
-        println!("    - {} (${:.2}) - Stock: {}", product.name, product.price, product.stock_quantity);
+        println!(
+            "    - {} (${:.2}) - Stock: {}",
+            product.name, product.price, product.stock_quantity
+        );
     }
     println!();
 
@@ -101,7 +104,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let list_by_category_result = list_by_category_response.into_inner();
     println!("List Products by Category Response:");
     println!("  Success: {}", list_by_category_result.success);
-    println!("  Total in Electronics: {}", list_by_category_result.total_count);
+    println!(
+        "  Total in Electronics: {}",
+        list_by_category_result.total_count
+    );
     println!("  Products:");
     for product in &list_by_category_result.products {
         println!("    - {}", product.name);
@@ -134,7 +140,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Update Inventory Response:");
     println!("  Success: {}", inventory_result.success);
     println!("  Message: {}", inventory_result.message);
-    println!("  New Stock Quantity: {}\n", inventory_result.new_stock_quantity);
+    println!(
+        "  New Stock Quantity: {}\n",
+        inventory_result.new_stock_quantity
+    );
 
     // Test 8: Update inventory (increase stock)
     println!("8. Testing Update Inventory (Increase)");
@@ -148,7 +157,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("Update Inventory Response:");
     println!("  Success: {}", inventory_result2.success);
     println!("  Message: {}", inventory_result2.message);
-    println!("  New Stock Quantity: {}\n", inventory_result2.new_stock_quantity);
+    println!(
+        "  New Stock Quantity: {}\n",
+        inventory_result2.new_stock_quantity
+    );
 
     // Test 9: Update product
     println!("9. Testing Update Product");

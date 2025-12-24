@@ -17,3 +17,9 @@ sqlx = { version = "0.8", features = [
     "migrate",
     "rust_decimal"
 ] }
+tower = "0.4"
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt", "json"] }
+pin-project = "1.0"
+http = "1.4.0"
+dashmap = "5.5"

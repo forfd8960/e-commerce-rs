@@ -1,6 +1,6 @@
 use proto::user::{
-    user_service_client::UserServiceClient, GetUserProfileRequest, LoginRequest, RegisterRequest,
-    UpdateUserProfileRequest, VerifyRequest,
+    GetUserProfileRequest, LoginRequest, RegisterRequest, UpdateUserProfileRequest, VerifyRequest,
+    user_service_client::UserServiceClient,
 };
 
 #[tokio::main]
